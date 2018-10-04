@@ -2,7 +2,7 @@ package cs131.pa1.filter.concurrent;
 
 import java.util.HashSet;
 
-public class UniqFilter extends ConcurrentFilter{
+public class UniqFilter extends ConcurrentFilter implements Runnable{
 	private HashSet<String> existingStringSet;
 	//This set will record what strings are existing
 	
@@ -18,5 +18,12 @@ public class UniqFilter extends ConcurrentFilter{
 			existingStringSet.add(line);
 			return line;
 		}
+	}
+	
+	/**
+	 *Run is the method from the class Runnable, which allows this to be a filter
+	 */
+	public void run(){
+		process();
 	}
 }
