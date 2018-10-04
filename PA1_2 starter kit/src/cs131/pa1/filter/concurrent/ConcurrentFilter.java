@@ -5,7 +5,7 @@ import java.util.Queue;
 import cs131.pa1.filter.Filter;
 
 
-public abstract class ConcurrentFilter extends Filter {
+public abstract class ConcurrentFilter extends Filter implements Runnable {
 	
 	protected Queue<String> input;
 	protected Queue<String> output;
