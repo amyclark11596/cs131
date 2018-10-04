@@ -7,7 +7,7 @@ import java.io.IOException;
 import cs131.pa1.filter.Filter;
 import cs131.pa1.filter.Message;
 
-public class RedirectFilter extends ConcurrentFilter {
+public class RedirectFilter extends ConcurrentFilter implements Runnable{
 	private FileWriter fw;
 	
 	public RedirectFilter(String line) throws Exception {
@@ -47,5 +47,9 @@ public class RedirectFilter extends ConcurrentFilter {
 			System.out.printf(Message.FILE_NOT_FOUND.toString(), line);
 		}
 		return null;
+	}
+	
+	public void run(){
+		process();
 	}
 }
