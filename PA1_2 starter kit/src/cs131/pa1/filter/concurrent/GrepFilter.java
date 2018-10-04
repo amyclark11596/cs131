@@ -2,7 +2,7 @@ package cs131.pa1.filter.concurrent;
 
 import cs131.pa1.filter.Message;
 
-public class GrepFilter extends ConcurrentFilter {
+public class GrepFilter extends ConcurrentFilter implements Runnable {
 	private String toFind;
 	
 	public GrepFilter(String line) throws Exception {
@@ -22,5 +22,12 @@ public class GrepFilter extends ConcurrentFilter {
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 *Run is the method from the class Runnable, which allows this to be a filter
+	 */
+	public void run(){
+		process();
 	}
 }

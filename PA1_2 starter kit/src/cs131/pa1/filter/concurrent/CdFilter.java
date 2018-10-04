@@ -5,7 +5,7 @@ import java.io.File;
 import cs131.pa1.filter.Filter;
 import cs131.pa1.filter.Message;
 
-public class CdFilter extends ConcurrentFilter {
+public class CdFilter extends ConcurrentFilter  implements Runnable{
 	private String dirToSet;
 	
 	public CdFilter(String line) throws Exception {
@@ -40,5 +40,12 @@ public class CdFilter extends ConcurrentFilter {
 	public String processLine(String line) {
 		ConcurrentREPL.currentWorkingDirectory = dirToSet;
 		return null;
+	}
+	
+	/**
+	 *Run is the method from the class Runnable, which allows this to be a filter
+	 */
+	public void run(){
+		process();
 	}
 }

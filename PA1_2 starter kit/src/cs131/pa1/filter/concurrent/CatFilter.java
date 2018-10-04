@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import cs131.pa1.filter.Message;
 
-public class CatFilter extends ConcurrentFilter{
+public class CatFilter extends ConcurrentFilter implements Runnable{
 	private Scanner reader;
 	
 	public CatFilter(String line) throws Exception {
@@ -52,5 +52,12 @@ public class CatFilter extends ConcurrentFilter{
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 *Run is the method from the class Runnable, which allows this to be a filter
+	 */
+	public void run(){
+		process();
 	}
 }

@@ -1,6 +1,6 @@
 package cs131.pa1.filter.concurrent;
 
-public class WcFilter extends ConcurrentFilter {
+public class WcFilter extends ConcurrentFilter implements Runnable {
 	private int linecount;
 	private int wordcount;
 	private int charcount;
@@ -37,5 +37,11 @@ public class WcFilter extends ConcurrentFilter {
 			charcount += cct.length;
 			return null;
 		}
+	}
+	/**
+	 * Run is the method to make the class runnable, and thus able to be a filter
+	 */
+	public void run(){
+		process();
 	}
 }
