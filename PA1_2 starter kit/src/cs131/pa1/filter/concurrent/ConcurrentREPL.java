@@ -18,9 +18,12 @@ public class ConcurrentREPL {
 			command = s.nextLine();
 			if(command.equals("exit")) {
 				break;
+			} else if(command.endsWith("&")){
+				//put checks for background r
 			} else if(!command.trim().equals("")) {
 				//building the filters list from the command
-				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
+				ConcurrentFilter filterlist;
+				filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
 				while(filterlist != null) {
 					//filterlist.process();
 					Thread t = new Thread(filterlist);
@@ -31,6 +34,18 @@ public class ConcurrentREPL {
 		}
 		s.close();
 		System.out.print(Message.GOODBYE);
+	}
+	
+	//iterates through the list and checks each process for completion. Returns false if one is not finished
+	public static boolean isDone(ConcurrentFilter filterlist){
+		while (filterlist.isDone()){
+			if(filterlist.getNext()!=null){
+				filterlist = (ConcurrentFilter) filterlist.getNext();
+			}
+			return true;
+		}
+			
+		return false;
 	}
 
 }
