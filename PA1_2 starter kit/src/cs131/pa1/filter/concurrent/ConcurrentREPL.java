@@ -22,7 +22,9 @@ public class ConcurrentREPL {
 				//building the filters list from the command
 				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
 				while(filterlist != null) {
-					filterlist.process();
+					//filterlist.process();
+					Thread t = new Thread(filterlist);
+					t.start();
 					filterlist = (ConcurrentFilter) filterlist.getNext();
 				}
 			}
