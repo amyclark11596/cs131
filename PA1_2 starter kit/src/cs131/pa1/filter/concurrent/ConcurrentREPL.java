@@ -61,28 +61,34 @@ public class ConcurrentREPL {
 				//building the filters list from the command
 				ConcurrentFilter filterlist;
 				filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
+				ConcurrentFilter head = filterlist;
+				LinkedList<Thread> currentThreads = new LinkedList<Thread>();
 				while(filterlist != null) {
 					//filterlist.process();
 					Thread t = new Thread(filterlist);
 					t.start();
+					currentThreads.add(t);
 					filterlist = (ConcurrentFilter) filterlist.getNext();
 				}
+				isDone(currentThreads);
 			}
 		}
 		s.close();
 		System.out.print(Message.GOODBYE);
 	}
 	
-	//iterates through the list and checks each process for completion. Returns false if one is not finished
-	public static boolean isDone(ConcurrentFilter filterlist){
-		while (filterlist.isDone()){
-			if(filterlist.getNext()!=null){
-				filterlist = (ConcurrentFilter) filterlist.getNext();
+	public static boolean isDone(LinkedList<Thread> threads){
+
+		//waits for the threads to complete. When they're all finished, method returns
+		for(Thread t: threads){
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			return true;
 		}
-			
-		return false;
+		return true;
 	}
 	
 	public static LinkedList<Thread> filterListBackground(ConcurrentFilter filterlist){
