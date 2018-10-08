@@ -43,5 +43,6 @@ public class WcFilter extends ConcurrentFilter implements Runnable {
 	 */
 	public void run(){
 		process();
+	
 	}
 }
