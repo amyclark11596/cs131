@@ -7,6 +7,7 @@ public class PwdFilter extends ConcurrentFilter implements Runnable{
 	
 	public void process() {
 		output.add(processLine(""));
+		output.add("poison_pill");
 	}
 	
 	public String processLine(String line) {

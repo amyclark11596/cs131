@@ -32,7 +32,11 @@ public class RedirectFilter extends ConcurrentFilter implements Runnable{
 	
 	public void process() {
 		while(!isDone()) {
-			processLine(input.poll());
+			String newLine = input.poll();
+			if(newLine.equals("poison_pill")){
+				break;
+			}
+			processLine(newLine);
 		}
 	}
 	

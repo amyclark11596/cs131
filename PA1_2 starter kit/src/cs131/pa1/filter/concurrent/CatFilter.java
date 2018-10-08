@@ -43,6 +43,7 @@ public class CatFilter extends ConcurrentFilter implements Runnable{
 			}
 			output.add(processedLine);
 		}
+		output.add("poison_pill");
 		reader.close();
 	}
 

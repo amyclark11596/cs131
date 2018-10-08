@@ -83,7 +83,10 @@ public class ConcurrentREPL {
 		for(Thread t: threads){
 			try {
 				t.join();
-			} catch (InterruptedException e) {
+				
+				//System.out.println(t.getName());
+			} 
+			catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

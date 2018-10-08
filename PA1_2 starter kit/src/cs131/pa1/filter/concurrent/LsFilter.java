@@ -18,6 +18,7 @@ public class LsFilter extends ConcurrentFilter implements Runnable{
 		while(counter < flist.length) {
 			output.add(processLine(""));
 		}
+		output.add("poison_pill");
 	}
 	
 	@Override
