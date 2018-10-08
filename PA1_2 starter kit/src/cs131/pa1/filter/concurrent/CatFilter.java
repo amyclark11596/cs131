@@ -29,6 +29,7 @@ public class CatFilter extends ConcurrentFilter implements Runnable{
 		}
 		try {
 			reader = new Scanner(new File(filename));
+			//System.out.println(reader);
 		} catch (FileNotFoundException e) {
 			System.out.printf(Message.FILE_NOT_FOUND.toString(), line);
 			throw new FileNotFoundException();
@@ -49,7 +50,8 @@ public class CatFilter extends ConcurrentFilter implements Runnable{
 
 	public String processLine(String line) {
 		if(reader.hasNextLine()) {
-			return reader.nextLine();
+			String s = reader.nextLine();
+			return s;
 		} else {
 			return null;
 		}
