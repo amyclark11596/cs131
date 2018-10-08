@@ -14,11 +14,11 @@ public class LsFilter extends ConcurrentFilter implements Runnable{
 	}
 	
 	@Override
-	public void process() {
+	public void process() throws InterruptedException {
 		while(counter < flist.length) {
-			output.add(processLine(""));
+			output.put(processLine(""));
 		}
-		output.add("poison_pill");
+		output.put("poison_pill");
 	}
 	
 	@Override
@@ -30,6 +30,11 @@ public class LsFilter extends ConcurrentFilter implements Runnable{
 	 *Run is the method from the class Runnable, which allows this to be a filter
 	 */
 	public void run(){
-		process();
+		try {
+			process();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

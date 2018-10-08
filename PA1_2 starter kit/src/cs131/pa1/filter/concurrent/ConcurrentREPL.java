@@ -36,7 +36,7 @@ public class ConcurrentREPL {
 				command = command.substring(0, command.length()-1);
 				//building the filters list from the command
 				ConcurrentFilter filterlist;
-				filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
+				filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command.substring(0, (command.length()-1)));
 				//adds filter to a list of currently running jobs
 				LinkedList<Thread> thisjob = filterListBackground(filterlist);
 				//joblist.add(thisjob);
@@ -51,15 +51,15 @@ public class ConcurrentREPL {
 				//calls method to kill a job, which takes in an integer of the job it wants to kill
 				String[] killcmd = command.split(" ");
 				if (killcmd.length == 1 ){
-					System.out.print(Message.REQUIRES_PARAMETER+"\n");
+					System.out.printf(Message.REQUIRES_PARAMETER.with_parameter("kill"));
 				} else if (!(killcmd[killcmd.length-1].matches(".*\\d+.*"))){
-					System.out.print(Message.INVALID_PARAMETER + "\n");
+					System.out.printf(Message.INVALID_PARAMETER.with_parameter(command));
 				} else {
 					String[] cmds = command.split(" ");
 					String toKill = cmds[cmds.length-1];
 					int numCheck = Integer.parseInt(toKill);
 					if (( numCheck > numjobs | numCheck < 1)){
-						System.out.print(Message.INVALID_PARAMETER+"\n");
+						System.out.printf(Message.INVALID_PARAMETER.with_parameter(command));
 					}
 					
 					jobList= kill(toKill, jobList);
@@ -115,9 +115,13 @@ public class ConcurrentREPL {
 	}
 	
 	public static void getJobs(LinkedList<Jobs> curr){
-		for (Jobs j: curr){
-			System.out.println(j.toString());
+		Iterator<Jobs> it = curr.iterator();
+		while (it.hasNext()){
+			System.out.println(it.next().toString());
 		}
+		//for (Jobs j: curr){
+			//System.out.println(j.toString());
+		//}
 	}
 	
 	public static LinkedList<Jobs> kill (String toKill, LinkedList<Jobs> alljobs){

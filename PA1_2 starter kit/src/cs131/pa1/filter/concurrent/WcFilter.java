@@ -9,19 +9,19 @@ public class WcFilter extends ConcurrentFilter implements Runnable {
 		super();
 	}
 	
-	public void process() {
-		while (!input.isEmpty()){
-			String line = input.poll();
+	public void process() throws InterruptedException {
+		while (!isDone()){
+			String line = input.take();
 			if(line.equals("poison_pill")){
-				break;
+				done = true;
 			}
 			String processedLine = processLine(line);
 			if (processedLine != null){
-				output.add(processedLine);
+				output.put(processedLine);
 			}
 		}
-		output.add(processLine(null));
-		output.add("poison_pill");
+		output.put(processLine(null));
+		output.put("poison_pill");
 	}
 	
 	public String processLine(String line) {
@@ -49,7 +49,12 @@ public class WcFilter extends ConcurrentFilter implements Runnable {
 	 * Run is the method to make the class runnable, and thus able to be a filter
 	 */
 	public void run(){
-		process();
+		try {
+			process();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 	}
 }

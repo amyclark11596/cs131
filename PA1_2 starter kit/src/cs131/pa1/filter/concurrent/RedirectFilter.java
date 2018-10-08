@@ -30,11 +30,11 @@ public class RedirectFilter extends ConcurrentFilter implements Runnable{
 		}
 	}
 	
-	public void process() {
+	public void process() throws InterruptedException {
 		while(!isDone()) {
-			String newLine = input.poll();
+			String newLine = input.take();
 			if(newLine.equals("poison_pill")){
-				break;
+				done = true;
 			}
 			processLine(newLine);
 		}
@@ -54,6 +54,11 @@ public class RedirectFilter extends ConcurrentFilter implements Runnable{
 	}
 	
 	public void run(){
-		process();
+		try {
+			process();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

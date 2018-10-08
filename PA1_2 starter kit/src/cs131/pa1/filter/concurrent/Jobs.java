@@ -15,7 +15,7 @@ public class Jobs {
 	}
 	
 	public String toString(){
-		return jobNum+". "+cmd;
+		return "\t"+jobNum+". "+cmd;
 	}
 
 }

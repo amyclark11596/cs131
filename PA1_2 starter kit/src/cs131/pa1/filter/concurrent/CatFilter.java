@@ -36,15 +36,15 @@ public class CatFilter extends ConcurrentFilter implements Runnable{
 		}
 	}
 
-	public void process() {
+	public void process() throws InterruptedException {
 		while(reader.hasNext()) {
 			String processedLine = processLine("");
 			if(processedLine == null) {
 				break;
 			}
-			output.add(processedLine);
+			output.put(processedLine);
 		}
-		output.add("poison_pill");
+		output.put("poison_pill");
 		reader.close();
 	}
 
@@ -61,6 +61,11 @@ public class CatFilter extends ConcurrentFilter implements Runnable{
 	 *Run is the method from the class Runnable, which allows this to be a filter
 	 */
 	public void run(){
-		process();
+		try {
+			process();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

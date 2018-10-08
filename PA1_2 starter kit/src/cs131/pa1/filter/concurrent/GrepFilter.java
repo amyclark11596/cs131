@@ -13,15 +13,15 @@ public class GrepFilter extends ConcurrentFilter implements Runnable {
 			System.out.printf(Message.REQUIRES_PARAMETER.toString(), line);
 			throw new Exception();
 		}
-		while (!input.isEmpty()){
+		while (!isDone()){
 			String inputLine = input.poll();
 			if(inputLine.equals("poison_pill")){
-				output.add(inputLine);
-				break;
+				output.put(inputLine);
+				done = true;
 			}
 			String processedLine = processLine(inputLine);
 			if (processedLine != null){
-				output.add(processedLine);
+				output.put(processedLine);
 			}
 		}
 	}
@@ -38,6 +38,11 @@ public class GrepFilter extends ConcurrentFilter implements Runnable {
 	 *Run is the method from the class Runnable, which allows this to be a filter
 	 */
 	public void run(){
-		process();
+		try {
+			process();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
