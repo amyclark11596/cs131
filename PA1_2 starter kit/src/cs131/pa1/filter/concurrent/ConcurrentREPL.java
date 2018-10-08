@@ -77,29 +77,29 @@ public class ConcurrentREPL {
 					currentThreads.add(t);
 					filterlist = (ConcurrentFilter) filterlist.getNext();
 				}
-				isDone(currentThreads);
+				
 			}
 		}
 		s.close();
 		System.out.print(Message.GOODBYE);
 	}
 	
-	public static boolean isDone(LinkedList<Thread> threads){
-
-		//waits for the threads to complete. When they're all finished, method returns
-		for(Thread t: threads){
-			try {
-				t.join();
-				
-				//System.out.println(t.getName());
-			} 
-			catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return true;
-	}
+//	public static boolean isDone(LinkedList<Thread> threads){
+//		threads.get
+//		//waits for the threads to complete. When they're all finished, method returns
+////		for(Thread t: threads){
+////			try {
+////				t.join();
+////				
+////				//System.out.println(t.getName());
+////			} 
+////			catch (InterruptedException e) {
+////				// TODO Auto-generated catch block
+////				e.printStackTrace();
+////			}
+////		}
+//		return true;
+//	}
 	
 	public static LinkedList<Thread> filterListBackground(ConcurrentFilter filterlist){
 		//the loop is its own method so multiple filterlists can call it at once

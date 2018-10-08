@@ -5,13 +5,14 @@ public class PrintFilter extends ConcurrentFilter implements Runnable {
 		super();
 	}
 	
-	public void process() {
-		while(!input.isEmpty()) {
-			String newLine = input.poll();
+	public void process() throws InterruptedException {
+		while(!done) {
+			String newLine = input.take();
 			if(newLine.equals("poison_pill")){
-				break;
+				done = true;
+			} else{
+				processLine(newLine);
 			}
-			processLine(newLine);
 		}
 	}
 	
@@ -24,6 +25,11 @@ public class PrintFilter extends ConcurrentFilter implements Runnable {
 	 *Run is the method from the class Runnable, which allows this to be a filter
 	 */
 	public void run(){
-		process();
+		try {
+			process();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
