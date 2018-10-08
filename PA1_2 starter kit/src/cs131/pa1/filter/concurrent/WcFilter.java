@@ -10,11 +10,18 @@ public class WcFilter extends ConcurrentFilter implements Runnable {
 	}
 	
 	public void process() {
-		if(isDone()) {
-			output.add(processLine(null));
-		} else {
-			super.process();
+		while (!input.isEmpty()){
+			String line = input.poll();
+			if(line.equals("poison_pill")){
+				break;
+			}
+			String processedLine = processLine(line);
+			if (processedLine != null){
+				output.add(processedLine);
+			}
 		}
+		output.add(processLine(null));
+		output.add("poison_pill");
 	}
 	
 	public String processLine(String line) {

@@ -6,13 +6,23 @@ public class GrepFilter extends ConcurrentFilter implements Runnable {
 	private String toFind;
 	
 	public GrepFilter(String line) throws Exception {
-		super();
 		String[] param = line.split(" ");
 		if(param.length > 1) {
 			toFind = param[1];
 		} else {
 			System.out.printf(Message.REQUIRES_PARAMETER.toString(), line);
 			throw new Exception();
+		}
+		while (!input.isEmpty()){
+			String inputLine = input.poll();
+			if(inputLine.equals("poison_pill")){
+				output.add(inputLine);
+				break;
+			}
+			String processedLine = processLine(inputLine);
+			if (processedLine != null){
+				output.add(processedLine);
+			}
 		}
 	}
 	

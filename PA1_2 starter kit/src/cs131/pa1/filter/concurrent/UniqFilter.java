@@ -11,6 +11,20 @@ public class UniqFilter extends ConcurrentFilter implements Runnable{
 	}
 
 	
+	public void process(){
+		while (!input.isEmpty()){
+			String line = input.poll();
+			if(line.equals("poison_pill")){
+				break;
+			}
+			String processedLine = processLine(line);
+			if (processedLine != null){
+				output.add(processedLine);
+			}
+		}
+		output.add("poison_pill");
+	}
+	
 	public String processLine(String line) {
 		if(existingStringSet.contains(line)) {
 			return null;

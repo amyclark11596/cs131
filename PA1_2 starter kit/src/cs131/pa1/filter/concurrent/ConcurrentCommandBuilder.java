@@ -3,6 +3,8 @@ package cs131.pa1.filter.concurrent;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import cs131.pa1.filter.Message;
 
@@ -10,7 +12,7 @@ public class ConcurrentCommandBuilder {
 	
 	public static ConcurrentFilter createFiltersFromCommand(String command){
 		//initialize the list that will hold all of the filters
-				List<ConcurrentFilter> filters = new LinkedList<ConcurrentFilter>();
+				BlockingQueue<ConcurrentFilter> filters = new LinkedBlockingQueue<ConcurrentFilter>();
 				//adding whitespace so that string splitting doesn't bug
 				command = " " + command + " ";
 				//removing the final filter here
@@ -23,7 +25,12 @@ public class ConcurrentCommandBuilder {
 				for(int i = 0; i < commands.length; i++) {
 					ConcurrentFilter filter = constructFilterFromSubCommand(commands[i].trim());
 					if(filter != null) {
-						filters.add(filter);
+						try {
+							filters.put(filter);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					} else {
 						return null;
 					}
@@ -33,10 +40,15 @@ public class ConcurrentCommandBuilder {
 				if(fin == null) {
 					return null;
 				}
-				filters.add(fin);
+				try {
+					filters.put(fin);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				if(linkFilters(filters, command) == true){
-					return filters.get(0);
+					return filters.peek();
 				} else {
 					return null;
 				}
@@ -114,7 +126,7 @@ public class ConcurrentCommandBuilder {
 		return filter;
 	}
 
-	private static boolean linkFilters(List<ConcurrentFilter> filters, String command){
+	private static boolean linkFilters(BlockingQueue<ConcurrentFilter> filters, String command){
 		Iterator<ConcurrentFilter> iter = filters.iterator();
 		ConcurrentFilter prev;
 		ConcurrentFilter curr = iter.next();
