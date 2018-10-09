@@ -68,7 +68,6 @@ public class ConcurrentREPL {
 				//building the filters list from the command
 				ConcurrentFilter filterlist;
 				filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
-				ConcurrentFilter head = filterlist;
 				LinkedList<Thread> currentThreads = new LinkedList<Thread>();
 				while(filterlist != null) {
 					//filterlist.process();
@@ -77,29 +76,33 @@ public class ConcurrentREPL {
 					currentThreads.add(t);
 					filterlist = (ConcurrentFilter) filterlist.getNext();
 				}
-				
+				try {
+					currentThreads.getLast().join();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		s.close();
 		System.out.print(Message.GOODBYE);
 	}
 	
-//	public static boolean isDone(LinkedList<Thread> threads){
-//		threads.get
-//		//waits for the threads to complete. When they're all finished, method returns
-////		for(Thread t: threads){
-////			try {
-////				t.join();
-////				
-////				//System.out.println(t.getName());
-////			} 
-////			catch (InterruptedException e) {
-////				// TODO Auto-generated catch block
-////				e.printStackTrace();
-////			}
-////		}
-//		return true;
-//	}
+	public static boolean closeThreads(LinkedList<Thread> threads){
+//		waits for the threads to complete. When they're all finished, method returns
+		for(Thread t: threads){
+			try {
+				t.join();
+				
+				//System.out.println(t.getName());
+			} 
+			catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
 	
 	public static LinkedList<Thread> filterListBackground(ConcurrentFilter filterlist){
 		//the loop is its own method so multiple filterlists can call it at once

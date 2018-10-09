@@ -6,12 +6,15 @@ public class PrintFilter extends ConcurrentFilter implements Runnable {
 	}
 	
 	public void process() throws InterruptedException {
-		while(!done) {
-			String newLine = input.take();
-			if(newLine.equals("poison_pill")){
-				done = true;
-			} else{
-				processLine(newLine);
+		while(!isDone()) {
+			if(!input.isEmpty()){
+				String newLine = input.take();
+				if(newLine.equals("poison_pill")){
+					done = true;
+					break;
+				} else{
+					processLine(newLine);
+				}
 			}
 		}
 	}

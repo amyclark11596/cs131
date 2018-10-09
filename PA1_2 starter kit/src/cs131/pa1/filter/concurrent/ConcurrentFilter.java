@@ -51,6 +51,15 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 		return done;
 	}
 	
+	public void run() {
+		try {
+			process();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	protected abstract String processLine(String line);
 	
 }
