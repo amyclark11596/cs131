@@ -14,6 +14,7 @@ public class WcFilter extends ConcurrentFilter implements Runnable {
 			String line = input.take();
 			if(line.equals("poison_pill")){
 				done = true;
+				break;
 			}
 			String processedLine = processLine(line);
 			if (processedLine != null){

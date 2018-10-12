@@ -35,6 +35,13 @@ public class CdFilter extends ConcurrentFilter  implements Runnable{
 	
 	public void process() {
 		processLine("");
+		done = true;
+		try {
+			output.put("poison_pill");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String processLine(String line) {

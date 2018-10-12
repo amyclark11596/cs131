@@ -42,7 +42,9 @@ public class RedirectFilter extends ConcurrentFilter implements Runnable{
 	
 	public String processLine(String line) {
 		try {
-			fw.append(line + "\n");
+			if(!isDone()){
+				fw.append(line + "\n");
+			}
 			if(isDone()) {
 				fw.flush();
 				fw.close();
