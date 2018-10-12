@@ -122,9 +122,6 @@ public class ConcurrentREPL {
 		while (it.hasNext()){
 			System.out.println(it.next().toString());
 		}
-		//for (Jobs j: curr){
-			//System.out.println(j.toString());
-		//}
 	}
 	
 	public static LinkedList<Jobs> kill (String toKill, LinkedList<Jobs> alljobs){
